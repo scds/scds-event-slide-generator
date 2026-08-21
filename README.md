@@ -69,7 +69,7 @@ Run locally with any static server, e.g.:
 cd docs && python -m http.server 8000
 ```
 
-To publish, enable GitHub Pages for this repo (Settings → Pages) serving from the `master` branch `/docs` folder.
+To publish, enable GitHub Pages for this repo (Settings → Pages) serving from the `main` branch `/docs` folder.
 
 ## Repository notes
 
