@@ -29,4 +29,4 @@ Personal automation scripts that scrape McMaster SCDS library events (LibCal) in
 
 ## Git layout
 
-- This folder IS its own repository now: remote `https://github.com/scds/scds-event-slide-generator.git`, branch `main`. (Previously it shared a parent repo — that's gone.)
+- This folder IS its own repository now: remote `https://github.com/scds/scds-event-slide-generator.git`, branch `master`. (Previously it shared a parent repo — that's gone.)
