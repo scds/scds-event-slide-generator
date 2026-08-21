@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCDS Event Slide Generator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="panel">
+    <h1>SCDS Event Slide</h1>
+    <p class="hint">Pulls upcoming workshops from the McMaster LibCal feed and previews the SCDS slide.</p>
+
+    <fieldset>
+      <legend>Input mode</legend>
+      <label><input type="radio" name="mode" value="url" checked> Full feed URL</label>
+      <label><input type="radio" name="mode" value="build"> Build from calendar IDs</label>
+    </fieldset>
+
+    <fieldset id="fieldset-url">
+      <legend>Feed URL</legend>
+      <input type="url" id="feed-url" spellcheck="false"
+        value="https://libcal.mcmaster.ca/api_events.php?m=upc&cid=8132_7565&audience=&c=&d=&tags=&l=5&tar=0">
+    </fieldset>
+
+    <fieldset id="fieldset-build" class="hidden">
+      <legend>Build feed URL</legend>
+      <label>Mode
+        <select id="opt-mode">
+          <option value="upc" selected>Upcoming (upc)</option>
+          <option value="today">Today</option>
+          <option value="week">Next week</option>
+          <option value="fortnight">Next fortnight</option>
+          <option value="month">Next month</option>
+        </select>
+      </label>
+      <label>Calendar ID(s)
+        <input type="text" id="opt-cid" value="8132_7565" spellcheck="false">
+        <small>Underscore-separated, e.g. 8132_7565</small>
+      </label>
+      <label>Category ID(s) (<code>d=</code>)
+        <input type="text" id="opt-d" value="" placeholder="e.g. 33846" spellcheck="false">
+        <small>33846 = Research Data Management, 36203 = DR; empty = all</small>
+      </label>
+      <label>Audience ID (<code>audience=</code>)
+        <input type="text" id="opt-audience" value="" spellcheck="false">
+      </label>
+      <label>Limit (<code>l=</code>, max 50)
+        <input type="number" id="opt-l" value="5" min="1" max="50">
+      </label>
+    </fieldset>
+
+    <button id="load-btn" type="button">Load events</button>
+    <div id="status" role="status"></div>
+
+    <details>
+      <summary>About this tool</summary>
+      <p>The browser fetches LibCal directly (the feed allows cross-origin requests), parses the event tables, and buckets each event into a quadrant by its category names using the same priority rules as <code>pull.py</code>.</p>
+    </details>
+  </aside>
+
+  <main class="main">
+    <div class="slide-wrap">
+      <section class="slide" aria-label="Slide preview">
+        <div class="rect yellow"></div>
+        <div class="rect teal"></div>
+        <div class="rect blue"></div>
+        <div class="rect green"></div>
+
+        <h2 class="slide-title" id="slide-title">Upcoming Workshops</h2>
+
+        <div class="box dash" data-box="Data Analysis Support Hub">
+          <div class="box-header">Data Analysis Support Hub</div>
+          <div class="lines"></div>
+        </div>
+        <div class="box dr" data-box="Digital Research">
+          <div class="box-header">Digital Research</div>
+          <div class="lines"></div>
+        </div>
+        <div class="box rdm" data-box="Research Data Management">
+          <div class="box-header">Research Data Management</div>
+          <div class="lines"></div>
+        </div>
+        <div class="box dmds" data-box="Do More with Digital Scholarship">
+          <div class="box-header">Do More with Digital Scholarship</div>
+          <div class="lines"></div>
+        </div>
+
+        <img class="qr" src="assets/qr.png" alt="">
+        <p class="footer">Register for Upcoming Workshops: https://u.mcmaster.ca/scds-workshops</p>
+      </section>
+    </div>
+    <div class="actions">
+      <button id="download-btn" type="button" disabled>Download .pptx</button>
+      <span class="hint">Requires an internet connection (loads PptxGenJS).</span>
+    </div>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="lib.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

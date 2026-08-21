@@ -16,7 +16,7 @@ from pptx.oxml.ns import qn
 
 FEED_URL = ("https://libcal.mcmaster.ca/api_events.php"
             "?m=upc&cid=8132_7565&audience=&c=&d=&tags=&l=5&tar=0")
-DECK_PATH = Path("SCDS Slide.pptx")
+DECK_PATH = Path("SCDS Slide template.pptx")
 
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 DARK = RGBColor(0x0F, 0x0F, 0x0F)
@@ -164,11 +164,12 @@ def build_slide(events, deck_path=DECK_PATH):
     out_path.write_bytes(deck_path.read_bytes())
     prs = Presentation(str(out_path))
 
-    # Keep only the second slide (the more current revision of the two).
+    # Older decks had two near-duplicate slides; keep only the second.
     sld_id_lst = prs.slides._sldIdLst
-    first = list(sld_id_lst)[0]
-    prs.part.drop_rel(first.get(qn("r:id")))
-    sld_id_lst.remove(first)
+    if len(prs.slides) > 1:
+        first = list(sld_id_lst)[0]
+        prs.part.drop_rel(first.get(qn("r:id")))
+        sld_id_lst.remove(first)
 
     slide = prs.slides[0]
     title_shape, boxes, overflow = find_shapes(slide)
