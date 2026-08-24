@@ -164,6 +164,17 @@ details p { margin: 8px 0 0; }
 }
 .actions button { width: auto; margin: 0; padding: 10px 22px; }
 
+.site-footer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 24px 20px;
+  font-size: 13px;
+  color: #777;
+  text-align: center;
+}
+.site-footer a { color: var(--teal); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
 .event-list {
   margin-top: 14px;
   padding: 10px 14px;
