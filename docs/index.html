@@ -13,18 +13,13 @@
     <p class="hint">Pulls upcoming workshops from the McMaster LibCal feed and previews the SCDS slide.</p>
 
     <fieldset>
-      <legend>Input mode</legend>
-      <label><input type="radio" name="mode" value="url" checked> Full feed URL</label>
-      <label><input type="radio" name="mode" value="build"> Build from calendar IDs</label>
-    </fieldset>
-
-    <fieldset id="fieldset-url">
       <legend>Feed URL</legend>
       <input type="url" id="feed-url" spellcheck="false"
         value="https://libcal.mcmaster.ca/api_events.php?m=upc&cid=8132_7565&audience=&c=&d=&tags=&l=5&tar=0">
+      <button id="load-url-btn" type="button">Load from URL</button>
     </fieldset>
 
-    <fieldset id="fieldset-build" class="hidden">
+    <fieldset id="fieldset-build">
       <legend>Build feed URL</legend>
       <label>Mode
         <select id="opt-mode">
@@ -47,11 +42,11 @@
         <input type="text" id="opt-audience" value="" spellcheck="false">
       </label>
       <label>Limit (<code>l=</code>, max 50)
-        <input type="number" id="opt-l" value="5" min="1" max="50">
+        <input type="number" id="opt-l" value="50" min="1" max="50">
       </label>
+      <button id="load-build-btn" type="button">Load built URL</button>
     </fieldset>
 
-    <button id="load-btn" type="button">Load events</button>
     <div id="status" role="status"></div>
 
     <details>
@@ -86,6 +81,9 @@
           <div class="box-header">Do More with Digital Scholarship</div>
           <div class="lines"></div>
         </div>
+        <div class="box dmds-extra">
+          <div class="lines"></div>
+        </div>
 
         <img class="qr" src="assets/qr.png" alt="">
         <p class="footer">Register for Upcoming Workshops: https://u.mcmaster.ca/scds-workshops</p>
@@ -94,6 +92,15 @@
     <div class="actions">
       <button id="download-btn" type="button" disabled>Download .pptx</button>
       <span class="hint">Requires an internet connection (loads PptxGenJS).</span>
+    </div>
+    <div id="picker-included" class="event-list hidden">
+      <h3>On the slide</h3>
+      <p class="hint">Uncheck to remove an event; check items below to add them.</p>
+      <div class="rows"></div>
+    </div>
+    <div id="picker-dropped" class="event-list hidden">
+      <h3>Left off the slide</h3>
+      <div class="rows"></div>
     </div>
   </main>
 </div>

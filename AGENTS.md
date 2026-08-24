@@ -8,7 +8,11 @@ Personal automation scripts that scrape McMaster SCDS library events (LibCal) in
 - The feed is table-based: one `<table class="s-lc-ea-tb">` per event with rows `s-lc-ea-ttit` (title/link), `s-lc-ea-from` (date like "11:00am Thursday, September 24, 2026" — parsed with `%I:%M%p %A, %B %d, %Y`), and `s-lc-ea-tcat` (comma-separated category names). Changes there break parsing.
 - Category → box mapping is the editable `BOXES` priority list in `pull.py`: an event tagged with several categories lands in the first matching box; unmatched events fall through to "Do More with Digital Scholarship". Current LibCal category names seen: "DR", "Research Data Management", "DASH", "DMDS".
 - Season in the slide title ("Fall/Winter/Spring/Summer YEAR") is derived from the earliest event date (Jan–Feb Winter, Mar–May Spring, Jun–Aug Summer, Sep–Dec Fall).
-- The deck is a single slide named `SCDS Slide template.pptx`. Older two-slide decks are handled (extra first slide is dropped); don't assume TextBox 2 or the overflow layout still exists — the script clears TextBox 2 if present.
+- The deck is a single slide named `SCDS Slide template.pptx`. Its background is four equal quadrant rects (TL teal accent1 #156082, TR blue accent4 #0F9ED5, BR green accent3 #196B24, BL yellow #E3E86A); older full-width-yellow-backdrop layouts are gone.
+- Sections are capped by estimated *text lines* so wrapped titles can't overflow: `MAX_LINES` in `pull.py` must stay in sync with `MAX_LINES_PER_BOX` in `docs/lib.js` (currently DASH 6, RDM 8, Digital Research 6, Do More 7). Lines estimate as `ceil(len(label+title) / CHARS_PER_LINE)` — the "Month D - " prefix counts — with CHARS_PER_LINE=45 in both files. Oversized events are skipped without blocking later smaller ones.
+- The Do More quadrant stacks its short main textbox over `TextBox 2`, which is narrow (3456000 EMU) so text stops short of the QR code: split_dmds puts ~2 lines up top and up to 5 below. fill_box must be called on TextBox 2 with keep_header=False — it has no header paragraph, and a stale zip slice here silently corrupts the box.
+- Feed default imports up to 50 events (`l=50`). Console prints per-section line usage (e.g. "[RDM] 8/8 lines").
+- Generated event paragraphs get space-after reduced by 1pt from the template's 6pt (`tighten_spacing` in pull.py → spcAft 500; webtool mirrors it with PptxGenJS `paraSpaceAfter: 5` and CSS `.box .line { margin-bottom: .29em }`).
 
 ## Feed URL parameters (user-verified)
 
